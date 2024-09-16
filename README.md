@@ -12,8 +12,6 @@ By performing a comprehensive data analysis, this project provides insights into
 - [Data Analysis](#data-analysis)
 - [Results / Findings](#results--findings)
 - [Recommendations](#recommendations)
-- [Limitations](#limitations)
-- [References](#references)
 
 ### Data Sources
 1. brazil-real-estate-1.csv: This file contains the primary dataset with various attributes of real estate properties across different regions in Brazil.
@@ -146,14 +144,110 @@ fig.show()
 
 The scatter map visualizes the geographic distribution of properties and can highlight regional differences in pricing.
 ### Data Analysis
+In this phase, I performed two key analyses:
+
+#### 1. Regional Price Comparison
+The aim was to determine whether there are significant differences in home prices across Brazil’s regions. I calculated the average price for each region and visualized the results using a bar chart.
+```python
+# Group by region and calculate the mean price
+regional_price_avg = df.groupby("region")["price_usd"].mean().sort_values(ascending=False)
+
+# Plot average prices by region
+regional_price_avg.plot(kind='bar', color='skyblue')
+
+# Label axes and add title
+plt.xlabel("Region")
+plt.ylabel("Average Price [USD]")
+plt.title("Average Home Prices by Region")
+
+# Show the plot
+plt.show()
+
+```
+#### Findings:
+
+- The average price of homes varies significantly between regions.
+- Certain regions, such as the Southeast, tend to have higher home prices compared to others like the North and Northeast.
+
+#### 2. Relationship Between Home Size and Price in Southern Brazil
+I also examined the relationship between home size and price specifically in the Southern region of Brazil, where a significant part of the analysis was focused.
+
+Code Example:
+```python
+# Filter for properties in the South region
+south_df = df[df["region"] == "South"]
+
+# Calculate correlation between home size and price
+correlation = south_df["area_m2"].corr(south_df["price_usd"])
+print(f"Correlation between home size and price in Southern Brazil: {correlation}")
+
+# Visualize the relationship using a scatter plot
+plt.scatter(south_df["area_m2"], south_df["price_usd"], alpha=0.5)
+plt.xlabel("Area [sq meters]")
+plt.ylabel("Price [USD]")
+plt.title("Home Size vs. Price in Southern Brazil")
+plt.show()
+
+```
+#### Findings:
+
+- The correlation between home size and price in Southern Brazil was found to be 0.5316779420492636.
+- The scatter plot shows that larger homes tend to be priced higher, although there is some variability.
 
 ### Results / Findings
+Based on the exploratory data analysis and deeper investigation into the dataset, the following key insights were uncovered:
 
+#### 1. Regional Price Differences
+There are significant variations in home prices across different regions of Brazil. The Southeast region tends to have the highest average home prices, while the North and Northeast regions have more affordable homes.
+
+- Southeast Region: Highest average home prices, likely due to economic concentration and urbanization.
+- North and Northeast Regions: Lower average home prices, possibly due to less developed infrastructure and economic activity.
+  
+This regional disparity suggests that location is a crucial factor influencing home prices in Brazil, with homes in more economically developed areas commanding higher prices.
+
+#### 2. Relationship Between Home Size and Price in Southern Brazil
+Focusing on the Southern region, I explored whether larger homes tend to have higher prices. The correlation analysis revealed a positive relationship between home size (area in square meters) and price.
+
+- Correlation Coefficient: 0.5316779420492636, indicating a moderate/strong positive relationship between home size and price in the South.
+  
+While larger homes do tend to be priced higher, the scatter plot indicates some variability, suggesting that other factors (such as location, amenities, and property type) also play a role in determining home prices.
+
+#### 3. Skewness in Home Size and Price Distribution
+The distribution of home prices is right-skewed, indicating that most properties are in the lower price range, with a few outliers at the high end. Similarly, the distribution of home sizes shows that most properties are within the 50–200m² range, with a smaller number of larger homes.
+
+- Home Price Distribution: Right-skewed, with a concentration of properties at the lower end of the price range.
+- Home Size Distribution: Also right-skewed, with most homes falling in the 50–200m² range.
+- 
+These skewed distributions indicate that the Brazilian real estate market contains more affordable, smaller properties, with fewer large and expensive homes.
+
+#### 4. Geographical Distribution of Properties
+The scatter map visualization of property prices across Brazil shows a clear clustering of higher-priced homes in economically developed regions, such as major cities (e.g., São Paulo and Rio de Janeiro).
+
+- Clustering: High-priced properties are concentrated around urban centers, indicating that city locations play a major role in driving up real estate prices.
+- Southern Brazil: Homes in the South generally follow a more moderate pricing trend compared to the Southeast.
 ### Recommendations
+Based on the findings from the analysis of Brazil’s housing market, I offer the following recommendations:
 
-### Limitations
+#### 1. For Homebuyers
+- Consider Regional Price Disparities: Homebuyers should carefully assess which region best aligns with their budget. For those seeking more affordable options, the North and Northeast regions offer lower average prices. However, those prioritizing economic opportunities or urban amenities may need to consider the higher prices in the Southeast region.
 
-### References
+- Southern Brazil for Moderate Prices: Homebuyers looking for a balance between affordability and quality of life may find the South region a good compromise. While home prices are moderately high, they are lower than in the Southeast, with a wider selection of medium-sized homes.
+
+#### 2. For Real Estate Investors
+- Urban Areas for High ROI: Investors looking to maximize returns should focus on major cities like São Paulo and Rio de Janeiro, where property values are consistently high and in demand. These areas present more opportunities for price appreciation and rental income.
+
+- Southern Region for Emerging Growth: While the Southeast region is already highly developed, the Southern region shows potential for growth. Investors could consider purchasing larger homes in the South, as the positive correlation between size and price suggests future price increases for larger properties in this area.
+
+#### 3. For Policymakers
+- Regional Investment in Infrastructure: To balance the real estate market, policymakers should invest in developing the infrastructure of the North and Northeast regions. Improving transportation, public services, and economic opportunities in these regions could attract more residents and investors, thereby stabilizing home prices.
+
+- Affordable Housing Initiatives: The skewed distribution of home prices, with a majority of affordable properties, indicates a need for policies that ensure continued availability of affordable housing. Policymakers should focus on affordable housing programs, particularly in regions where price growth is rapid.
+
+#### 4. Future Considerations
+- Monitor Market Trends: Both homebuyers and investors should monitor future market trends, especially as regional infrastructure projects and urban development could shift demand and prices in various regions.
+
+- Evaluate Other Factors: While the analysis highlights the importance of home size and location, other factors like neighborhood amenities, proximity to schools or public transportation, and environmental conditions should also be considered when making buying or investment decisions.
+
 
 
 
